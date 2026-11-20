@@ -1,0 +1,26 @@
+# ============================================================
+#  TERMINE DER BREGENZER DSCHINNIS
+#  Eine Zeile = ein Termin. Felder mit | trennen.
+#
+#  Datum      | Uhrzeit | Titel | Ort | Info
+#
+#  Datum:   TT.MM.JJJJ
+#  Uhrzeit: HH:MM  oder leer lassen (= ganztägig)
+#  Ort:     leer lassen, wenn unbekannt (dann kein Kartenlink)
+#  Info:    optional, kurzer Hinweis
+#  Ein * vor dem Titel hebt den Termin hervor.
+#
+#  Vergangene Termine verschwinden automatisch von der Seite.
+#  Zeilen mit # am Anfang werden ignoriert.
+# ============================================================
+
+12.12.2026 |       | Zere Angelobung                                       |                           |
+08.01.2027 |       | Fluhar-Ball                                           | Schindlersaal, Bregenz    |
+22.01.2027 |       | Altprinzenball                                        | Festspielhaus Bregenz     |
+29.01.2027 |       | *Kinderfest Herz Jesu, powered by Bregenzer Dschinnis | Pfarre Herz Jesu, Bregenz |
+29.01.2027 |       | Notruffest                                            |                           |
+04.02.2027 |       | Gumpiger Donnerstag                                   | Bregenz                   | Bratenstehlen Feuerwehr · Bürgermeisterabsetzung · Büttenrede · Stadtparty · Gösser-Schlüsselparty
+05.02.2027 |       | 17er-Ball                                             |                           |
+06.02.2027 |       | Pipelines-Ball                                        |                           |
+09.02.2027 | 10:30 | Faschingsfinale                                       | Landhaus Bregenz          |
+09.02.2027 |       | *Fest der 1000 Krapfen: Spielstation                  | Bregenz                   | Helfende Hände gesucht!
