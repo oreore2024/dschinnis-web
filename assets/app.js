@@ -19,10 +19,11 @@
       const f=l.split("|").map(x=>x.trim());
       const m=(f[0]||"").match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
       if(!m){console.warn("termine.txt Zeile "+(i+1)+": Datum unlesbar:",l);return;}
-      const tm=(f[1]||"").match(/^(\d{1,2}):(\d{2})$/);
+      const tm=(f[1]||"").replace(/\s/g,"").match(/^(\d{1,2}):(\d{2})(?:[-–](\d{1,2}):(\d{2}))?$/);
       const d=new Date(+m[3],+m[2]-1,+m[1],tm?+tm[1]:0,tm?+tm[2]:0);
+      const until=tm&&tm[3]?new Date(+m[3],+m[2]-1,+m[1],+tm[3],+tm[4]):null;
       let t=f[2]||"Termin",star=false; if(t.startsWith("*")){star=true;t=t.slice(1).trim();}
-      out.push({d,allDay:!tm,t,star,o:f[3]||"",info:f[4]||""});
+      out.push({d,until,allDay:!tm,t,star,o:f[3]||"",info:f[4]||""});
     });
     // Ganztägige Termine am selben Tag nach den Terminen mit Uhrzeit
     const key=e=>+e.d+(e.allDay?86399000:0);
@@ -31,7 +32,7 @@
 
   function stamp(d,day){const s=`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;return day?s:`${s}T${pad(d.getHours())}${pad(d.getMinutes())}00`;}
   function gcal(e){
-    const end=new Date(e.d);e.allDay?end.setDate(end.getDate()+1):end.setHours(end.getHours()+3);
+    const end=e.until?new Date(e.until):new Date(e.d);if(!e.until){e.allDay?end.setDate(end.getDate()+1):end.setHours(end.getHours()+3);}
     return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(e.t)
       +"&dates="+stamp(e.d,e.allDay)+"/"+stamp(end,e.allDay)+"&ctz=Europe/Vienna"
       +"&details="+encodeURIComponent((e.info?e.info+"\n":"")+"Bregenzer Dschinnis · dschinnis.fun")
@@ -45,7 +46,8 @@
     upcoming.forEach(e=>{
       const li=document.createElement("li");
       li.className="ev"+(e.star?" star":"");
-      const time=e.allDay?"ganztägig":pad(e.d.getHours())+":"+pad(e.d.getMinutes())+" Uhr";
+      const hm=x=>pad(x.getHours())+":"+pad(x.getMinutes());
+      const time=e.allDay?"ganztägig":hm(e.d)+(e.until?"–"+hm(e.until):"")+" Uhr";
       li.innerHTML=`<div class="date"><b>${e.d.getDate()}</b><span>${M[e.d.getMonth()]}</span></div>
         <div><h3></h3><p class="meta"><span>${W[e.d.getDay()]} · ${time}</span><span class="o"></span></p><p class="info"></p></div>
         <div class="acts"><details class="save"><summary>Speichern</summary><div class="menu">

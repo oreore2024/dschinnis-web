@@ -16,7 +16,7 @@ Veröffentlicht über GitHub Pages.
    | Feld    | Inhalt                                               |
    |---------|------------------------------------------------------|
    | Datum   | `TT.MM.JJJJ`                                         |
-   | Uhrzeit | `HH:MM` oder leer = ganztägig                         |
+| Uhrzeit | `HH:MM`, `HH:MM-HH:MM` (von–bis) oder leer = ganztägig |
    | Titel   | Name des Termins; `*` davor hebt ihn hervor           |
    | Ort     | leer = kein Kartenlink                                |
    | Info    | optional, kurzer Hinweis                             |

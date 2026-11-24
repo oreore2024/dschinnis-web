@@ -56,16 +56,18 @@ def parse(text):
         if not m:
             print(f"termine.txt Zeile {n}: Datum unlesbar: {l}", file=sys.stderr); continue
         d = dt.date(int(m[3]), int(m[2]), int(m[1]))
-        tm = re.fullmatch(r"(\d{1,2}):(\d{2})", f[1])
+        tm = re.fullmatch(r"(\d{1,2}):(\d{2})(?:[-–](\d{1,2}):(\d{2}))?", re.sub(r"\s", "", f[1]))
         title = f[2].lstrip("*").strip() or "Termin"
         events.append(dict(date=d, time=dt.time(int(tm[1]), int(tm[2])) if tm else None,
+                           until=dt.time(int(tm[3]), int(tm[4])) if tm and tm[3] else None,
                            title=title, place=f[3], info=f[4]))
     return events
 
 def vevent(e, stamp):
     d, t = e["date"], e["time"]
     if t:
-        start = dt.datetime.combine(d, t); end = start + dt.timedelta(hours=3)
+        start = dt.datetime.combine(d, t)
+        end = dt.datetime.combine(d, e["until"]) if e.get("until") else start + dt.timedelta(hours=3)
         when = [f"DTSTART;TZID={TZ}:{start:%Y%m%dT%H%M%S}", f"DTEND;TZID={TZ}:{end:%Y%m%dT%H%M%S}"]
     else:
         when = [f"DTSTART;VALUE=DATE:{d:%Y%m%d}", f"DTEND;VALUE=DATE:{d + dt.timedelta(days=1):%Y%m%d}"]
